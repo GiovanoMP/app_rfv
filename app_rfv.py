@@ -58,11 +58,12 @@ def contar_clientes_por_grupo(df):
 # Configuração da aplicação Streamlit
 st.title('Análise RFV de Clientes')
 
-# Botão para upload do arquivo
-uploaded_file = st.file_uploader("Escolha um arquivo CSV", type="csv")
+# URL do arquivo CSV hospedado no GitHub
+csv_url = "https://raw.githubusercontent.com/GiovanoMP/app_rfv/main/dados_input%201.csv"
 
-if uploaded_file is not None:
-    df = pd.read_csv(uploaded_file)
+# Botão para carregar o arquivo CSV
+if st.button("Carregar dados do GitHub"):
+    df = pd.read_csv(csv_url)
     df['DiaCompra'] = pd.to_datetime(df['DiaCompra'])  # Convertendo a coluna de data
     rfv_df = calcular_rfv(df)
     
@@ -89,18 +90,17 @@ if uploaded_file is not None:
     )
 
 # Explicação do que foi feito
-
 """
 ### Explicação do Código
 
-Este código foi desenvolvido para criar uma aplicação em Streamlit que realiza a análise RFV (Recência, Frequência, Valor) dos clientes com base em um arquivo CSV. 
+Este código foi desenvolvido para criar uma aplicação em Streamlit que realiza a análise RFV (Recência, Frequência, Valor) dos clientes com base em um arquivo CSV.
 
 **Objetivo:**
 O principal objetivo da análise RFV é segmentar os clientes em grupos, com base em seu comportamento de compra, para que estratégias de marketing específicas possam ser aplicadas a cada segmento.
 
 **O que foi feito:**
 
-1. **Upload de Arquivo CSV:** O usuário faz o upload de um arquivo CSV que contém os dados das compras dos clientes, incluindo as colunas ID_cliente, CodigoCompra, DiaCompra (data da compra), e ValorTotal (valor da compra).
+1. **Carregamento de Arquivo CSV do GitHub:** O usuário pode carregar o arquivo CSV diretamente do GitHub ao clicar em um botão.
 
 2. **Cálculo das Métricas RFV:**
    - **Recência (R):** Calcula o número de dias desde a última compra de cada cliente.
@@ -108,11 +108,11 @@ O principal objetivo da análise RFV é segmentar os clientes em grupos, com bas
    - **Valor Monetário (V):** Soma o valor total gasto por cada cliente.
 
 3. **Classificação dos Clientes:** 
-   - Utilizamos pd.qcut para dividir as métricas RFV em 4 categorias (A, B, C, D), onde A representa o melhor desempenho em cada métrica e D o pior.
-   - A combinação dessas categorias é usada para formar um código RFV como AAA, AAB, etc.
+   - Utilizamos `pd.qcut` para dividir as métricas RFV em 4 categorias (`A`, `B`, `C`, `D`), onde `A` representa o melhor desempenho em cada métrica e `D` o pior.
+   - A combinação dessas categorias é usada para formar um código RFV como `AAA`, `AAB`, etc.
 
 4. **Estratégias de Marketing:** 
-   - Aplicamos estratégias de marketing específicas para cada combinação de RFV, como "Manter cliente fiel" para AAA ou "Reativar clientes perdidos" para DDD.
+   - Aplicamos estratégias de marketing específicas para cada combinação de RFV, como "Manter cliente fiel" para `AAA` ou "Reativar clientes perdidos" para `DDD`.
 
 5. **Download dos Resultados:**
    - Os usuários podem baixar dois arquivos Excel:
@@ -120,5 +120,5 @@ O principal objetivo da análise RFV é segmentar os clientes em grupos, com bas
      - Outro com a contagem de clientes por grupo RFV e as estratégias de marketing recomendadas para cada grupo.
 
 **Utilização:**
-Este código pode ser utilizado com qualquer arquivo CSV que siga a estrutura especificada. É uma ferramenta poderosa para segmentar clientes e aplicar estratégias de marketing personalizadas.
+Este código pode ser utilizado para carregar um arquivo CSV específico diretamente do GitHub, realizar a análise RFV e permitir o download dos resultados.
 """
